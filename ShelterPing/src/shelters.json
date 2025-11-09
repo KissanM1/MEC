@@ -39,14 +39,9 @@
     "shelter_id": 3
   },
   {
-<<<<<<< HEAD:ShelterPing/src/mecdata.json
-    "shelter_name": "hello",
-    "location": "mcmaster university",
-=======
     "shelter_type": "Food Bank",
     "shelter_name": "Hello",
     "location": "12345",
->>>>>>> de0c95ea13da2facb9fde3f6e6027296a070482b:ShelterPing/src/data/shelters.json
     "shelter_max_capacity": 50,
     "shelter_current_capacity": 50,
     "status": "green",
