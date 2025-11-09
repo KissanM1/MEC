@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-DATA_FILE = "ShelterPing/src/mecdata.json"
+DATA_FILE = DATA_FILE = os.path.join("data", "shelters.json")
 
 # --- Helper functions ---
 

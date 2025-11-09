@@ -1,5 +1,6 @@
 [
   {
+    "shelter_type": "Shelter",
     "shelter_id": 1,
     "shelter_name": "The Salvation Army",
     "shelter_latitude": 43.26555175,
@@ -12,6 +13,7 @@
     "shelter_request": "Need Blankets"
   },
   {
+    "shelter_type": "Shelter",
     "shelter_id": 2,
     "shelter_name": "Good Shepherd",
     "shelter_latitude": 43.26223912,
@@ -24,7 +26,7 @@
     "shelter_request": "Need Food"
   },
   {
-    "shelter_id": 3,
+    "shelter_type": "Shelter",
     "shelter_name": "Martha House",
     "shelter_latitude": 43.26088499,
     "shelter_longitude": -79.88028253,
@@ -33,11 +35,18 @@
     "food_available": true,
     "beds_available": false,
     "is_open": true,
-    "shelter_request": "Need Nurses"
+    "shelter_request": "Need Nurses",
+    "shelter_id": 3
   },
   {
+<<<<<<< HEAD:ShelterPing/src/mecdata.json
     "shelter_name": "hello",
     "location": "mcmaster university",
+=======
+    "shelter_type": "Food Bank",
+    "shelter_name": "Hello",
+    "location": "12345",
+>>>>>>> de0c95ea13da2facb9fde3f6e6027296a070482b:ShelterPing/src/data/shelters.json
     "shelter_max_capacity": 50,
     "shelter_current_capacity": 50,
     "status": "green",
@@ -46,7 +55,20 @@
     "shelter_longitude": -79.8711,
     "food_available": true,
     "beds_available": true,
-    "is_open": true,
+    "is_open": false,
     "shelter_id": 4
+  },
+  {
+    "shelter_type": "Medical Facility",
+    "shelter_name": "Hospital",
+    "location": "address123",
+    "shelter_max_capacity": 150,
+    "shelter_current_capacity":250,
+    "food_available": true,
+    "beds_available": false,
+    "is_open": true,
+    "shelter_request": "Need Nurses",
+    "shelter_id": 5
+
   }
 ]
