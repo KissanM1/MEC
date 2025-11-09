@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-DATA_FILE = "shelters.json"
+DATA_FILE = "./shelters.json"
 
 # --- Helper functions ---
 

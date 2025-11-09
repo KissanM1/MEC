@@ -3,7 +3,7 @@ const isAdmin = document.title.includes("Admin");
 let shelters = JSON.parse(localStorage.getItem("shelters")) || [];
 
 // Unified JSON path for both pages
-const JSON_PATH = "src/shelters.json"; 
+const JSON_PATH = "./ShelterPing/src/shelters.json"; 
 const API_BASE = 'http://localhost:5000/api';
 
 if (isAdmin) {
