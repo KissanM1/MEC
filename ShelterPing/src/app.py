@@ -64,8 +64,14 @@ def delete_shelter(shelter_id):
 @app.route("/api/shelters/nearby", methods=["GET"])
 def get_nearby_shelters():
     from math import radians, cos, sin, acos
-    user_lat = float(request.args.get("lat"))
-    user_lon = float(request.args.get("lon"))
+    user_lat = request.args.get("lat")
+    user_lon = request.args.get("lon")
+
+    if user_lat is None or user_lon is None:
+        return jsonify({"error": "Missing lat or lon parameters"}), 400
+
+    user_lat = float(user_lat)
+    user_lon = float(user_lon)
 
     shelters = load_data()
     for s in shelters:
