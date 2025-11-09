@@ -8,6 +8,7 @@ if (isAdmin) {
   // Admin page logic
   const shelterForm = document.getElementById("shelter-form");
   const shelterList = document.getElementById("list");
+  let editingShelterId = null;
 
   // Load shelters from mecdata.json on page load
   fetch("./ShelterPing/src/mecdata.json")
@@ -29,15 +30,17 @@ if (isAdmin) {
       li.innerHTML = `
         <strong>${shelter.shelter_name}</strong><br>
         ${shelter.location}<br>
-        Capacity: ${shelter.shelter_current_capacity || shelter.capacity}<br>
+        Capacity: ${shelter.shelter_current_capacity}/${shelter.shelter_max_capacity}<br>
         Status: ${shelter.status || (shelter.is_open ? "Open" : "Closed")}<br>
-        Needs: ${shelter.needs || shelter.shelter_request || "None"}
+        Needs: ${shelter.needs || shelter.shelter_request || "None"}<br>
+        <button onclick="editShelter(${shelter.shelter_id})" style="background: #ffa726; margin-top: 5px;">Edit</button>
+        <button onclick="deleteShelter(${shelter.shelter_id})" style="background: #ef5350; margin-top: 5px;">Delete</button>
       `;
       shelterList.appendChild(li);
     });
   }
 
-  // Add shelter functionality - UPDATED to use Flask backend
+  // Add or Update shelter functionality
   shelterForm.addEventListener("submit", async function(e) {
     e.preventDefault();
     
@@ -45,11 +48,10 @@ if (isAdmin) {
       shelter_name: document.getElementById("shelter-name").value,
       location: document.getElementById("shelter-location").value,
       shelter_max_capacity: parseInt(document.getElementById("shelter-capacity").value),
-      shelter_current_capacity: parseInt(document.getElementById("shelter-capacity").value), // Using same as max for now
+      shelter_current_capacity: parseInt(document.getElementById("shelter-capacity").value),
       status: document.getElementById("status").value,
       shelter_request: document.getElementById("needs").value || "No urgent needs",
-      // Set default values for required backend fields
-      shelter_latitude: 43.2557, // Default Hamilton coordinates
+      shelter_latitude: 43.2557,
       shelter_longitude: -79.8711,
       food_available: true,
       beds_available: true,
@@ -57,37 +59,114 @@ if (isAdmin) {
     };
 
     try {
-      // Save to Flask backend
-      const response = await fetch(`${API_BASE}/shelters`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newShelter)
-      });
+      let response;
+      if (editingShelterId) {
+        // Update existing shelter
+        response = await fetch(`${API_BASE}/shelters/${editingShelterId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newShelter)
+        });
+      } else {
+        // Add new shelter
+        response = await fetch(`${API_BASE}/shelters`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newShelter)
+        });
+      }
       
       if (response.ok) {
         const result = await response.json();
-        console.log('Shelter saved to backend:', result);
         
-        // Also update local storage for immediate UI update
-        shelters.push(result.shelter);
+        if (editingShelterId) {
+          // Update existing shelter in local array
+          const index = shelters.findIndex(s => s.shelter_id === editingShelterId);
+          if (index !== -1) {
+            shelters[index] = result.shelter;
+          }
+          alert('Shelter updated successfully!');
+        } else {
+          // Add new shelter to local array
+          shelters.push(result.shelter);
+          alert('Shelter added successfully!');
+        }
+        
         localStorage.setItem("shelters", JSON.stringify(shelters));
-        
-        alert('Shelter added successfully!');
-        shelterForm.reset();
+        resetForm();
         renderShelters();
       } else {
         throw new Error('Failed to save shelter to backend');
       }
     } catch (error) {
       console.error('Error saving shelter:', error);
-      alert('Error adding shelter. Please check if the backend server is running.');
+      alert('Error saving shelter. Please check if the backend server is running.');
     }
   });
 
+  // Edit shelter function
+  window.editShelter = function(shelterId) {
+    const shelter = shelters.find(s => s.shelter_id === shelterId);
+    if (shelter) {
+      document.getElementById("shelter-name").value = shelter.shelter_name;
+      document.getElementById("shelter-location").value = shelter.location;
+      document.getElementById("shelter-capacity").value = shelter.shelter_current_capacity;
+      document.getElementById("status").value = shelter.status;
+      document.getElementById("needs").value = shelter.shelter_request;
+      
+      editingShelterId = shelterId;
+      document.querySelector('button[type="submit"]').textContent = '💾 Update Shelter';
+      
+      // Add cancel button
+      if (!document.getElementById('cancel-btn')) {
+        const cancelBtn = document.createElement('button');
+        cancelBtn.id = 'cancel-btn';
+        cancelBtn.type = 'button';
+        cancelBtn.textContent = '❌ Cancel';
+        cancelBtn.style.background = '#6c757d';
+        cancelBtn.onclick = resetForm;
+        shelterForm.appendChild(cancelBtn);
+      }
+    }
+  };
+
+  // Delete shelter function
+  window.deleteShelter = async function(shelterId) {
+    if (confirm('Are you sure you want to delete this shelter?')) {
+      try {
+        const response = await fetch(`${API_BASE}/shelters/${shelterId}`, {
+          method: 'DELETE'
+        });
+        
+        if (response.ok) {
+          shelters = shelters.filter(s => s.shelter_id !== shelterId);
+          localStorage.setItem("shelters", JSON.stringify(shelters));
+          alert('Shelter deleted successfully!');
+          renderShelters();
+        } else {
+          throw new Error('Failed to delete shelter');
+        }
+      } catch (error) {
+        console.error('Error deleting shelter:', error);
+        alert('Error deleting shelter. Please check if the backend server is running.');
+      }
+    }
+  };
+
+  // Reset form function
+  function resetForm() {
+    shelterForm.reset();
+    editingShelterId = null;
+    document.querySelector('button[type="submit"]').textContent = '➕ Add Shelter';
+    const cancelBtn = document.getElementById('cancel-btn');
+    if (cancelBtn) {
+      cancelBtn.remove();
+    }
+  }
+
   // Initial render
   renderShelters();
+
 
 } else {
   // ... your existing user page logic remains completely unchanged ...
