@@ -34,5 +34,19 @@
     "beds_available": false,
     "is_open": true,
     "shelter_request": "Need Nurses"
+  },
+  {
+    "shelter_name": "hello",
+    "location": "mcmaster university",
+    "shelter_max_capacity": 50,
+    "shelter_current_capacity": 50,
+    "status": "green",
+    "shelter_request": "nothing",
+    "shelter_latitude": 43.2557,
+    "shelter_longitude": -79.8711,
+    "food_available": true,
+    "beds_available": true,
+    "is_open": true,
+    "shelter_id": 4
   }
 ]
