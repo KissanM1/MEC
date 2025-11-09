@@ -1,7 +1,4 @@
-// Detect which page we’re on
 const isAdmin = document.title.includes("Admin");
-
-// Local storage mock database
 let shelters = JSON.parse(localStorage.getItem("shelters")) || [];
 
 if (isAdmin) {
@@ -11,12 +8,13 @@ if (isAdmin) {
 
   function renderShelters() {
     list.innerHTML = "";
-    shelters.forEach((shelter, i) => {
+    shelters.forEach((shelter) => {
       const li = document.createElement("li");
       li.innerHTML = `
         <strong>${shelter.location}</strong>
         <span style="color:${shelter.status}; font-size:1.2rem;">●</span>
         <em>${shelter.needs || "No urgent needs"}</em>
+        <br><small>Lat: ${shelter.lat}, Lng: ${shelter.lng}</small>
       `;
       list.appendChild(li);
     });
@@ -27,8 +25,10 @@ if (isAdmin) {
     const location = document.getElementById("location").value;
     const status = document.getElementById("status").value;
     const needs = document.getElementById("needs").value;
+    const lat = parseFloat(document.getElementById("lat").value);
+    const lng = parseFloat(document.getElementById("lng").value);
 
-    shelters.push({ location, status, needs });
+    shelters.push({ location, status, needs, lat, lng });
     localStorage.setItem("shelters", JSON.stringify(shelters));
     renderShelters();
     form.reset();
@@ -38,30 +38,52 @@ if (isAdmin) {
 
 } else {
   // USER PAGE LOGIC
-  const form = document.getElementById("find-form");
-  const results = document.getElementById("shelter-results");
+  const shelterList = document.getElementById("shelter-list");
 
-  function renderResults() {
-    results.innerHTML = "";
+  function renderShelters() {
+    shelterList.innerHTML = "";
     if (shelters.length === 0) {
-      results.innerHTML = "<p>No shelters available yet.</p>";
+      shelterList.innerHTML = "<p>No shelters available yet.</p>";
       return;
     }
-    shelters.forEach((s) => {
+    shelters.forEach((shelter) => {
       const li = document.createElement("li");
       li.innerHTML = `
-        <strong>${s.location}</strong>
-        <span style="color:${s.status}; font-size:1.2rem;">●</span>
-        <em>${s.needs || "No urgent needs"}</em>
+        <strong>${shelter.location}</strong>
+        <span style="color:${shelter.status}; font-size:1.2rem;">●</span>
+        <em>${shelter.needs || "No urgent needs"}</em>
       `;
-      results.appendChild(li);
+      shelterList.appendChild(li);
     });
   }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    renderResults();
+  // Initialize Leaflet map
+  const map = L.map("map").setView([43.2557, -79.8711], 12); // Default to Hamilton, ON
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; OpenStreetMap contributors',
+  }).addTo(map);
+
+  // Add shelter markers
+  shelters.forEach((shelter) => {
+    if (shelter.lat && shelter.lng) {
+      L.marker([shelter.lat, shelter.lng])
+        .addTo(map)
+        .bindPopup(`<strong>${shelter.location}</strong><br>${shelter.needs || "No urgent needs"}`);
+    }
   });
 
-  renderResults();
+  // Get user location
+  document.getElementById("locate-btn").addEventListener("click", () => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      document.getElementById("user-location-display").textContent = `Lat: ${latitude.toFixed(4)}, Lng: ${longitude.toFixed(4)}`;
+      map.setView([latitude, longitude], 13);
+      L.marker([latitude, longitude])
+        .addTo(map)
+        .bindPopup("You are here")
+        .openPopup();
+    });
+  });
+
+  renderShelters();
 }
