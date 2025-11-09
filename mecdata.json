@@ -1,0 +1,30 @@
+[
+  {
+    "shelter_name": "Hello",
+    "location": "140 main street West",
+    "shelter_max_capacity": 50,
+    "shelter_current_capacity": 50,
+    "status": "green",
+    "shelter_request": "Blankets",
+    "shelter_latitude": 43.2557,
+    "shelter_longitude": -79.8711,
+    "food_available": true,
+    "beds_available": true,
+    "is_open": true,
+    "shelter_id": 1
+  },
+  {
+    "shelter_name": "Hello ",
+    "location": "Adress",
+    "shelter_max_capacity": 150,
+    "shelter_current_capacity": 150,
+    "status": "green",
+    "shelter_request": "nothing",
+    "shelter_latitude": 43.2557,
+    "shelter_longitude": -79.8711,
+    "food_available": true,
+    "beds_available": true,
+    "is_open": true,
+    "shelter_id": 2
+  }
+]
