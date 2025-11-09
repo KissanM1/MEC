@@ -1,77 +1,39 @@
 <!DOCTYPE html>
-<!-- HTML5 document type declaration -->
 <html lang="en">
 <head>
-  <!-- Character encoding for proper text rendering -->
   <meta charset="UTF-8" />
-  <!-- Responsive viewport settings for mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Page title shown in browser tab -->
-  <title>ShelterPing</title>
-  <!-- Link to external CSS stylesheet -->
+  <title>ShelterPing - Find Nearby Shelters</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Import Inter font from Google Fonts with multiple weights -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-  <!-- Main header with branding and description -->
   <header>
-    <h1>🏕️ ShelterPing</h1>
-    <!-- Descriptive tagline explaining the app's purpose -->
-    <p>Instant disaster shelter updates — stay safe, stay informed</p>
+    <h1>ShelterPing 🏕️</h1>
+    <p>Find open shelters in real time</p>
   </header>
 
-  <!-- Main content area containing all application components -->
   <main>
-    <!-- Map container for interactive map display -->
-    <div id="map">
-      <!-- Placeholder text while map loads -->
-      <p>🗺️ Interactive map loading...</p>
-    </div>
+    <section id="user-location-section">
+      <h2>Your Location</h2>
+      <button id="locate-btn">📍 Get My Location</button>
+      <p id="user-location-display">Location not set yet.</p>
+    </section>
 
-    <!-- Container for form and list sections for layout purposes -->
-    <div class="container">
-      <!-- Form section for adding/updating shelter information -->
-      <section id="form-section" class="card">
-        <h2>🏠 Add or Update Shelter</h2>
-        <!-- Form for submitting shelter data -->
-        <form id="shelter-form">
-          <!-- Input for shelter location - required field -->
-          <input type="text" id="location" placeholder="Shelter Location" required />
-          <!-- Dropdown for selecting current shelter status -->
-          <select id="status">
-            <!-- Green: Open and accepting people -->
-            <option value="green">🟢 Open</option>
-            <!-- Yellow: Limited capacity available -->
-            <option value="yellow">🟡 Limited</option>
-            <!-- Red: At full capacity, not accepting more people -->
-            <option value="red">🔴 Full</option>
-          </select>
-          <!-- Input for listing critical supplies needed -->
-          <input type="text" id="needs" placeholder="Critical Needs (e.g. blankets, water)" />
-          <!-- Submit button to add shelter to the system -->
-          <button type="submit">Add Shelter</button>
-        </form>
-      </section>
+    <section id="map-section">
+      <h2>Map View</h2>
+      <div id="map"></div>
+    </section>
 
-      <!-- Section displaying current active shelters -->
-      <section id="shelter-list" class="card">
-        <h2>📍 Current Shelters</h2>
-        <!-- Unordered list that will be populated dynamically with JavaScript -->
-        <!-- Shelter entries will be inserted here as list items -->
-        <ul id="list"></ul>
-      </section>
-    </div>
+    <section id="shelter-list-section">
+      <h2>Current Shelters</h2>
+      <ul id="shelter-list">
+        <!-- Shelter info dynamically appears here -->
+      </ul>
+    </section>
+
+    <a href="admin.html" class="switch-page">Admin Mode →</a>
   </main>
 
-  <!-- Footer with attribution and message -->
-  <footer>
-    <!-- Inspirational message showing the purpose behind the application -->
-    <p>Made with ❤️ for those rising from the ashes.</p>
-  </footer>
-
-  <!-- Link to external JavaScript file for application functionality -->
   <script src="script.js"></script>
 </body>
 </html>

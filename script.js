@@ -1,34 +1,67 @@
-// Get references to the form and list elements from the DOM
-const form = document.getElementById("shelter-form");
-const list = document.getElementById("list");
+// Detect which page we’re on
+const isAdmin = document.title.includes("Admin");
 
-// Add event listener for form submission
-form.addEventListener("submit", (e) => {
-  // Prevent the default form submission behavior (page refresh)
-  e.preventDefault();
+// Local storage mock database
+let shelters = JSON.parse(localStorage.getItem("shelters")) || [];
 
-  // Get the current values from the form inputs
-  const location = document.getElementById("location").value;
-  const status = document.getElementById("status").value;
-  const needs = document.getElementById("needs").value;
+if (isAdmin) {
+  // ADMIN PAGE LOGIC
+  const form = document.getElementById("shelter-form");
+  const list = document.getElementById("list");
 
-  // Create a new list item element to display the shelter information
-  const li = document.createElement("li");
-  
-  // Set the inner HTML of the list item with the shelter data
-  // Using template literals to embed variables in the HTML string
-  li.innerHTML = `
-    <strong>${location}</strong> 
-    <!-- Display colored dot based on status (green/yellow/red) -->
-    <span style="color:${status}; font-size:1.2rem;">●</span> 
-    <!-- Show needs or default message if no needs specified -->
-    <em>${needs || "No urgent needs"}</em>
-  `;
-  
-  // Add the new list item to the shelter list in the DOM
-  list.appendChild(li);
+  function renderShelters() {
+    list.innerHTML = "";
+    shelters.forEach((shelter, i) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${shelter.location}</strong>
+        <span style="color:${shelter.status}; font-size:1.2rem;">●</span>
+        <em>${shelter.needs || "No urgent needs"}</em>
+      `;
+      list.appendChild(li);
+    });
+  }
 
-  // Reset the form inputs to their initial empty state
-  // This clears all fields after successful submission
-  form.reset();
-});
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const location = document.getElementById("location").value;
+    const status = document.getElementById("status").value;
+    const needs = document.getElementById("needs").value;
+
+    shelters.push({ location, status, needs });
+    localStorage.setItem("shelters", JSON.stringify(shelters));
+    renderShelters();
+    form.reset();
+  });
+
+  renderShelters();
+
+} else {
+  // USER PAGE LOGIC
+  const form = document.getElementById("find-form");
+  const results = document.getElementById("shelter-results");
+
+  function renderResults() {
+    results.innerHTML = "";
+    if (shelters.length === 0) {
+      results.innerHTML = "<p>No shelters available yet.</p>";
+      return;
+    }
+    shelters.forEach((s) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${s.location}</strong>
+        <span style="color:${s.status}; font-size:1.2rem;">●</span>
+        <em>${s.needs || "No urgent needs"}</em>
+      `;
+      results.appendChild(li);
+    });
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    renderResults();
+  });
+
+  renderResults();
+}

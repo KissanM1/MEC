@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShelterPing — Admin</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ---------- GENERAL STYLING ---------- */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4a90e2, #357abd);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      padding: 1.5rem;
+      flex: 1;
+      min-width: 350px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #4a90e2;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ---------- FORM STYLING ---------- */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    input, select {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    }
+
+    button {
+      padding: 0.9rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4a90e2, #357abd);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #3c7dc4, #2f6da3);
+      transform: translateY(-2px);
+    }
+
+    /* ---------- LIST STYLING ---------- */
+    #list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #list li {
+      background: #f8fbff;
+      border-left: 6px solid #4a90e2;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      border-radius: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #list li:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    #list strong {
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 0;
+      background: #eef2f7;
+      margin-top: 2rem;
+      border-top: 1px solid #dce2ea;
+    }
+
+    footer a {
+      color: #4a90e2;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🏕️ ShelterPing Admin</h1>
+    <p>Manage and update local shelter availability</p>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- Admin Form -->
+      <section id="form-section" class="card">
+        <h2>🏠 Add or Update Shelter</h2>
+        <form id="shelter-form">
+          <input type="text" id="shelter-name" placeholder="Shelter Name" required />
+          <input type="text" id="shelter-location" placeholder="Shelter Location / Address" required />
+          <input type="number" id="shelter-capacity" placeholder="Capacity (e.g., 50)" required />
+
+          <select id="status">
+            <option value="green">🟢 Open</option>
+            <option value="yellow">🟡 Limited</option>
+            <option value="red">🔴 Full</option>
+          </select>
+
+          <input type="text" id="needs" placeholder="Critical Needs (e.g., blankets, water)" />
+          <button type="submit">➕ Add Shelter</button>
+        </form>
+      </section>
+
+      <!-- Shelter List -->
+      <section id="shelter-list" class="card">
+        <h2>📍 Current Shelters</h2>
+        <ul id="list">
+          <!-- Dynamically populated list -->
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p><a href="index.html">← Return to User View</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
