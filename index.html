@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- Declares this document as HTML5 -->
+<html lang="en">
+<head>
+  <!-- Character encoding for proper text display -->
+  <meta charset="UTF-8" />
+  <!-- Responsive viewport settings for mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Page title that appears in browser tab -->
+  <title>ShelterPing</title>
+  <!-- Link to external CSS stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Main header section of the page -->
+  <header>
+    <!-- Main heading with emoji for visual appeal -->
+    <h1>🏕️ ShelterPing</h1>
+    <!-- Subtitle describing the application's purpose -->
+    <p>Real-time shelter updates during disasters</p>
+  </header>
+
+  <!-- Main content area of the page -->
+  <main>
+    <!-- Map container section -->
+    <!-- This div will hold the interactive map when implemented -->
+    <div id="map">
+      🗺️ Map loading... <!-- Placeholder text while map loads -->
+    </div>
+
+    <!-- Shelter form section for adding/updating shelter information -->
+    <section id="form-section">
+      <h2>Add / Update Shelter</h2>
+      <!-- Form for submitting shelter data -->
+      <form id="shelter-form">
+        <!-- Input field for shelter location -->
+        <input type="text" id="location" placeholder="Shelter Location" required />
+        
+        <!-- Dropdown selector for shelter status -->
+        <select id="status">
+          <!-- Green option: Shelter is open and accepting people -->
+          <option value="green">🟢 Open</option>
+          <!-- Yellow option: Shelter has limited capacity -->
+          <option value="yellow">🟡 Limited</option>
+          <!-- Red option: Shelter is at full capacity -->
+          <option value="red">🔴 Full</option>
+        </select>
+        
+        <!-- Input field for critical needs/supplies required -->
+        <input type="text" id="needs" placeholder="Critical Needs (e.g. blankets)" />
+        
+        <!-- Submit button to send form data -->
+        <button type="submit">Update Shelter</button>
+      </form>
+    </section>
+
+    <!-- Section displaying current shelter information -->
+    <section id="shelter-list">
+      <h2>Current Shelters</h2>
+      <!-- Unordered list that will be populated with shelter data dynamically -->
+      <!-- JavaScript will add list items here based on current shelter status -->
+      <ul id="list"></ul>
+    </section>
+  </main>
+
+  <!-- Link to external JavaScript file for interactive functionality -->
+  <!-- This script handles form submission, dynamic updates, and map integration -->
+  <script src="script.js"></script>
+</body>
+</html>
