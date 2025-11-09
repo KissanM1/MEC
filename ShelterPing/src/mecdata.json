@@ -1,0 +1,38 @@
+[
+  {
+    "shelter_id": 1,
+    "shelter_name": "The Salvation Army",
+    "shelter_latitude": 43.26555175,
+    "shelter_longitude": -79.95393147,
+    "shelter_max_capacity": 500,
+    "shelter_current_capacity": 250,
+    "food_available": true,
+    "beds_available": true,
+    "is_open": true,
+    "shelter_request": "Need Blankets"
+  },
+  {
+    "shelter_id": 2,
+    "shelter_name": "Good Shepherd",
+    "shelter_latitude": 43.26223912,
+    "shelter_longitude": -79.8846661,
+    "shelter_max_capacity": 150,
+    "shelter_current_capacity": 0,
+    "food_available": false,
+    "beds_available": false,
+    "is_open": true,
+    "shelter_request": "Need Food"
+  },
+  {
+    "shelter_id": 3,
+    "shelter_name": "Martha House",
+    "shelter_latitude": 43.26088499,
+    "shelter_longitude": -79.88028253,
+    "shelter_max_capacity": 200,
+    "shelter_current_capacity": 100,
+    "food_available": true,
+    "beds_available": false,
+    "is_open": true,
+    "shelter_request": "Need Nurses"
+  }
+]
